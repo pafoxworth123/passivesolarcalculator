@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Alero de Techo — Bloquea el Sol de Verano, Deja Entrar el de Invierno</title>
+<meta name="description" content="Calculadora gratuita de alero de techo para diseño solar pasivo. Ingresa tu latitud, la altura de la ventana y las fechas de calor para hallar la proyección exacta del alero que da sombra en verano y deja pasar el sol bajo de invierno.">
+<meta name="keywords" content="calculadora de alero, diseño solar pasivo, alero solar, ángulo de elevación solar, sombra para ventanas orientadas al sur, calculadora de ángulo solar, arquitectura bioclimática">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Terra Southeast">
+<link rel="canonical" href="https://passivesolarcalculator.com/es">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://passivesolarcalculator.com/es">
+<meta property="og:title" content="Calculadora de Alero de Techo — Bloquea el Sol de Verano, Deja Entrar el de Invierno">
+<meta property="og:description" content="Ingresa tu latitud, la altura de la ventana y las fechas de calor para calcular la proyección ideal del alero para calefacción solar pasiva y sombra en verano.">
+<meta property="og:site_name" content="Calculadora de Alero Solar">
+<meta property="og:locale" content="es_ES">
+<meta property="og:image" content="https://passivesolarcalculator.com/es/og-image-es.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Calculadora de alero de techo — diagrama de un rayo de sol de verano bloqueado por un alero y un rayo de sol de invierno que llega a la ventana.">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Calculadora de Alero de Techo — Bloquea el Sol de Verano, Deja Entrar el de Invierno">
+<meta name="twitter:description" content="Una calculadora trigonométrica que dimensiona el alero de tu techo para diseño solar pasivo — sombra en verano, sol en invierno.">
+<meta name="twitter:image" content="https://passivesolarcalculator.com/es/og-image-es.png">
+<link rel="alternate" hreflang="en" href="https://passivesolarcalculator.com/">
+<link rel="alternate" hreflang="es" href="https://passivesolarcalculator.com/es">
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Calculadora de Alero de Techo",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (runs in browser)",
+  "inLanguage": "es",
+  "description": "Calcula la proyección del alero de techo necesaria para dar sombra a ventanas orientadas al sur en verano, permitiendo a la vez el ingreso del sol bajo de invierno, según la latitud, la geometría de la ventana y las fechas de la estación cálida.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #F1ECDD;
+    --paper-raised: #FAF7EE;
+    --ink: #2A2820;
+    --ink-soft: #5B5748;
+    --rule: #D8D0BC;
+    --blueprint: #123252;
+    --blueprint-deep: #0D2540;
+    --blueprint-line: #DCEAF4;
+    --blueprint-line-dim: #6E97B8;
+    --ember: #C1502E;
+    --ember-soft: rgba(193,80,46,0.16);
+    --sun: #E7A33E;
+    --sun-soft: rgba(231,163,62,0.20);
+    --serif: "Source Serif 4", Georgia, serif;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html,body{ margin:0; padding:0; }
+
+  body{
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 48px 28px 80px; }
+
+  /* ---------- Header ---------- */
+  header.page-head{ max-width: 640px; margin-bottom: 44px; }
+
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+    margin: 0 0 14px;
+  }
+
+  h1{
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(32px, 4.4vw, 44px);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    margin: 0 0 18px;
+  }
+
+  header.page-head p{
+    color: var(--ink-soft);
+    font-size: 17px;
+    max-width: 58ch;
+    margin: 0 0 8px;
+  }
+
+  /* ---------- Layout grid ---------- */
+  .calculator-grid{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 22px;
+    align-items: start;
+  }
+
+  @media (max-width: 860px){
+    .calculator-grid{ grid-template-columns: 1fr; }
+  }
+
+  .panel{
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 28px 26px;
+  }
+
+  .panel h2{
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin: 0 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+  }
+
+  .panel h2 span{ color: var(--ink-soft); font-weight: 400; }
+
+  fieldset{
+    border: 0;
+    padding: 0;
+    margin: 0 0 22px;
+  }
+
+  fieldset:last-child{ margin-bottom: 0; }
+
+  legend{
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+    padding: 0 0 10px;
+    width: 100%;
+  }
+
+  .field-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+
+  .field-row.single{ grid-template-columns: 1fr; }
+
+  label{
+    display: block;
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  label .unit{ color: var(--ink-soft); font-family: var(--mono); font-size: 12px; }
+
+  input[type="number"], input[type="date"]{
+    width: 100%;
+    font-family: var(--mono);
+    font-size: 15px;
+    padding: 9px 10px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--ink);
+  }
+
+  input:focus-visible{
+    outline: 2px solid var(--blueprint);
+    outline-offset: 1px;
+  }
+
+  .hint{
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .warning{
+    font-size: 13.5px;
+    color: #8A4420;
+    background: var(--ember-soft);
+    border-left: 3px solid var(--ember);
+    padding: 10px 12px;
+    margin-top: 14px;
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* ---------- Diagram / result panel ---------- */
+  .diagram-panel{ position: sticky; top: 20px; }
+
+  .blueprint-card{
+    background: var(--blueprint);
+    background-image:
+      linear-gradient(var(--blueprint-deep) 1px, transparent 1px),
+      linear-gradient(90deg, var(--blueprint-deep) 1px, transparent 1px);
+    background-size: 24px 24px;
+    border-radius: 3px;
+    padding: 4px;
+    margin-bottom: 22px;
+  }
+
+  .blueprint-card svg{ display:block; width:100%; height:auto; }
+
+  .result-block{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .result-label{
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+  }
+
+  .result-number{
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 46px;
+    line-height: 1;
+    color: var(--blueprint);
+    white-space: nowrap;
+  }
+
+  .result-sub{
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-top: 8px;
+  }
+
+  .result-divider{
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 18px 0;
+  }
+
+  .bonus-row{ font-size: 14px; color: var(--ink); }
+  .bonus-row .figure{ font-family: var(--mono); color: var(--ember); font-weight: 600; }
+
+  /* ---------- Chart panel ---------- */
+  .chart-panel{
+    margin-top: 22px;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 28px 26px 22px;
+  }
+
+  .chart-panel h2{
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin: 0 0 4px;
+  }
+
+  .chart-panel .chart-caption{
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+  }
+
+  .legend-row{
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 12px;
+  }
+
+  .legend-row .swatch{
+    display:inline-block;
+    width: 11px; height: 11px;
+    border-radius: 2px;
+    margin-right: 6px;
+    vertical-align: -1px;
+  }
+
+  /* ---------- Notes ---------- */
+  details.notes{
+    margin-top: 22px;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 18px 26px;
+  }
+
+  details.notes summary{
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+
+  details.notes .notes-body{
+    margin-top: 16px;
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 70ch;
+  }
+
+  details.notes .notes-body p{ margin: 0 0 12px; }
+  details.notes .notes-body a{ color: var(--blueprint); }
+
+  footer.page-foot{
+    margin-top: 40px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="page-head">
+    <p class="eyebrow">CALCULADORA DE ALERO — DISEÑO SOLAR PASIVO</p>
+    <h1>Dimensiona un alero de techo que bloquee el sol de verano y deje entrar el de invierno.</h1>
+    <p>Ingresa tu latitud y las dimensiones de la ventana, junto con las fechas en que tus ventanas orientadas al sur empiezan a sentirse demasiado calurosas. La herramienta calcula los ángulos solares al mediodía solar y te da la proyección del alero que da sombra en esos meses — sin dejar de admitir el sol bajo de invierno.</p>
+  </header>
+
+  <div class="calculator-grid">
+
+    <!-- INPUTS -->
+    <div class="panel inputs-panel">
+      <h2>Tu edificación <span>— todas las medidas en metros decimales</span></h2>
+
+      <fieldset>
+        <legend>Ubicación</legend>
+        <div class="field-row single">
+          <div>
+            <label for="lat">Latitud <span class="unit">°N</span></label>
+            <input type="number" id="lat" value="36.17" step="0.01" min="-60" max="70">
+          </div>
+        </div>
+        <p class="hint" id="latHint"></p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Ventana y muro</legend>
+        <div class="field-row">
+          <div>
+            <label for="eaveHeight">Altura del alero <span class="unit">m sobre el piso</span></label>
+            <input type="number" id="eaveHeight" value="2.75" step="0.05" min="0.3">
+          </div>
+          <div>
+            <label for="sillHeight">Altura del antepecho <span class="unit">m sobre el piso</span></label>
+            <input type="number" id="sillHeight" value="0.6" step="0.05" min="0">
+          </div>
+        </div>
+        <div class="field-row">
+          <div>
+            <label for="windowHeight">Altura de la ventana <span class="unit">m</span></label>
+            <input type="number" id="windowHeight" value="1.5" step="0.05" min="0.15">
+          </div>
+          <div>
+            <label for="wallThickness">Espesor del muro <span class="unit">cm</span></label>
+            <input type="number" id="wallThickness" value="30" step="1" min="2">
+          </div>
+        </div>
+        <p class="hint">El alero debe dar sombra a la <em>parte inferior</em> de la ventana — es decir, la altura del alero menos la altura del antepecho.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Tu estación calurosa</legend>
+        <div class="field-row">
+          <div>
+            <label for="dateA">Empieza a hacer calor</label>
+            <input type="date" id="dateA" value="2025-06-01">
+          </div>
+          <div>
+            <label for="dateB">Refresca alrededor de</label>
+            <input type="date" id="dateB" value="2025-09-17">
+          </div>
+        </div>
+        <p class="hint">Elige las dos fechas del año en que tus ventanas orientadas al sur empiezan y dejan de necesitar sombra — consulta promedios climáticos locales si tienes dudas. El año que elijas no importa, solo el mes y el día.</p>
+        <div id="warningBox"></div>
+      </fieldset>
+    </div>
+
+    <!-- DIAGRAM + RESULT -->
+    <div class="panel diagram-panel">
+      <h2>Corte transversal <span>— a escala</span></h2>
+      <div class="blueprint-card">
+        <svg id="diagram" viewBox="0 0 460 340" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+
+      <div class="result-block">
+        <div>
+          <div class="result-label">PROYECCIÓN MÁS ALLÁ DEL MURO</div>
+          <div class="result-number" id="resultNumber">—</div>
+        </div>
+      </div>
+      <div class="result-sub" id="resultSub"></div>
+
+      <hr class="result-divider">
+
+      <div class="bonus-row" id="bonusRow"></div>
+    </div>
+  </div>
+
+  <!-- CHART -->
+  <div class="chart-panel">
+    <h2>Elevación solar al mediodía a lo largo del año</h2>
+    <p class="chart-caption" id="chartCaption"></p>
+    <svg id="yearChart" viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" width="100%"></svg>
+    <div class="legend-row">
+      <span><span class="swatch" style="background:var(--ember-soft); border:1px solid var(--ember);"></span>El alero da sombra completa</span>
+      <span><span class="swatch" style="background:var(--sun-soft); border:1px solid var(--sun);"></span>El sol llega a la ventana</span>
+      <span><span class="swatch" style="background:var(--blueprint-line-dim);"></span>Elevación solar al mediodía</span>
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <details class="notes">
+    <summary>Cómo se calcula esto, y dónde deja de ser preciso</summary>
+    <div class="notes-body">
+      <p>La elevación del sol al mediodía solar depende de tu latitud y de la declinación solar de ese día, que oscila entre aproximadamente +23.45° en el solsticio de junio y −23.45° en el de diciembre. Esta herramienta usa la aproximación estándar para la declinación y calcula la elevación como 90° menos la diferencia entre tu latitud y esa declinación — con una precisión aproximada de un grado, suficiente para dimensionar madera pero no para una estaca de agrimensura.</p>
+      <p>La proyección del alero surge de un solo triángulo: la caída vertical desde el alero hasta la parte inferior de la ventana, dividida por la tangente de la elevación solar en tu fecha más restrictiva, menos el espesor del muro. La fecha con el ángulo solar más bajo es la que manda — un ángulo más bajo proyecta una sombra más larga, así que un alero dimensionado para esa fecha también cubrirá, sin costo adicional, la fecha con ángulo más alto.</p>
+      <p>Como la elevación solar sube y baja de forma simétrica alrededor del solsticio, un alero construido para un lado del verano automáticamente empieza (o deja) de dar sombra en la fecha espejo del otro lado — que suele caer más temprano en primavera o más tarde en otoño que tu estación calurosa real. Esa es la ventana de sombra adicional que se muestra debajo del resultado.</p>
+      <p>Todo este método asume que estás bien fuera de los trópicos, donde el sol permanece en el lado sur del cielo todo el año. Dentro de aproximadamente 23.5° del ecuador, el sol pasa al norte durante parte del año y un alero orientado al sur por sí solo no bastará — los vidrios orientados al norte necesitan su propio tratamiento.</p>
+      <p>Para una segunda opinión sobre la elevación en cualquier fecha, la NOAA publica una calculadora solar gratuita en <a href="https://gml.noaa.gov/grad/solcalc/" target="_blank" rel="noopener">gml.noaa.gov/grad/solcalc</a>.</p>
+    </div>
+  </details>
+
+  <footer class="page-foot">LAS CIFRAS SON ESTIMACIONES PARA DISEÑO PRELIMINAR — CONFIRMA CON UN ARQUITECTO ANTES DE CONSTRUIR.</footer>
+
+</div>
+
+<script>
+(function(){
+  const $ = (id) => document.getElementById(id);
+
+  const inputs = ['lat','eaveHeight','sillHeight','windowHeight','wallThickness','dateA','dateB'].map($);
+  inputs.forEach(el => el.addEventListener('input', compute));
+
+  const REF_YEAR = 2025; // non-leap reference year, only month/day are used
+
+  function toRad(d){ return d * Math.PI / 180; }
+  function toDeg(r){ return r * 180 / Math.PI; }
+
+  function dayOfYear(dateStr){
+    if(!dateStr) return null;
+    const parts = dateStr.split('-');
+    const m = parseInt(parts[1],10) - 1;
+    const d = parseInt(parts[2],10);
+    const start = new Date(REF_YEAR, 0, 1);
+    const cur = new Date(REF_YEAR, m, d);
+    return Math.round((cur - start) / 86400000) + 1;
+  }
+
+  function dateLabelFromDay(n){
+    let day = ((n - 1) % 365 + 365) % 365 + 1;
+    const d = new Date(REF_YEAR, 0, day);
+    return d.toLocaleDateString('es-ES', { month: 'short', day: 'numeric' });
+  }
+
+  function declination(n){
+    return 23.45 * Math.sin(toRad((360/365) * (n + 284)));
+  }
+
+  function elevation(lat, n){
+    return 90 - Math.abs(lat - declination(n));
+  }
+
+  function formatMeters(m){
+    if (m < 0.02) return '0 cm';
+    if (m < 1) return `${Math.round(m * 100)} cm`;
+    return `${m.toFixed(2)} m`;
+  }
+
+  const SOLSTICE_N = dayOfYear('2025-06-21');
+  const WINTER_N = dayOfYear('2025-12-21');
+
+  function compute(){
+    const lat = parseFloat($('lat').value);
+    const eaveHeight = parseFloat($('eaveHeight').value);
+    const sillHeight = parseFloat($('sillHeight').value);
+    const windowHeight = parseFloat($('windowHeight').value);
+    const wallThicknessM = parseFloat($('wallThickness').value) / 100;
+    const dateA = $('dateA').value;
+    const dateB = $('dateB').value;
+
+    const warningBox = $('warningBox');
+    warningBox.innerHTML = '';
+
+    $('latHint').textContent = Math.abs(lat) < 23.5
+      ? 'Dentro de los trópicos: el sol cruza al lado norte del cielo durante parte del año, así que este método orientado al sur por sí solo no protegerá del todo las ventanas orientadas al norte.'
+      : 'Fuera de los trópicos, el sol directo permanece en la fachada sur del edificio todo el año — este método se aplica sin problema.';
+
+    if (!(eaveHeight > sillHeight) || !dateA || !dateB || isNaN(lat)) {
+      $('resultNumber').textContent = '—';
+      $('resultSub').textContent = 'La altura del alero debe ser mayor que la altura del antepecho.';
+      $('bonusRow').textContent = '';
+      drawDiagram(null);
+      drawChart(null);
+      return;
+    }
+
+    const H = eaveHeight - sillHeight;
+    const nA = dayOfYear(dateA);
+    const nB = dayOfYear(dateB);
+    const elevA = elevation(lat, nA);
+    const elevB = elevation(lat, nB);
+
+    const bindingIsA = elevA <= elevB;
+    const bindingElev = bindingIsA ? elevA : elevB;
+    const bindingN = bindingIsA ? nA : nB;
+    const bindingDateLabel = bindingIsA ? 'la fecha en que empieza el calor' : 'la fecha en que refresca';
+
+    if (bindingElev <= 1) {
+      $('resultNumber').textContent = '—';
+      $('resultSub').textContent = `A esta latitud, el sol apenas se eleva sobre el horizonte al mediodía solar en esa fecha (${bindingElev.toFixed(1)}°). Ningún alero práctico dará sombra a esta ventana en esa fecha — reconsidera la fecha o la orientación de la ventana.`;
+      $('bonusRow').textContent = '';
+      drawDiagram(null);
+      drawChart(null);
+      return;
+    }
+
+    const runTotal = H / Math.tan(toRad(bindingElev));
+    const overhangRaw = runTotal - wallThicknessM;
+    const overhang = Math.max(0, overhangRaw);
+
+    $('resultNumber').textContent = formatMeters(overhang);
+    if (overhangRaw < 0) {
+      $('resultSub').textContent = `Tu muro ya es lo bastante grueso para dar sombra a esta ventana a ${bindingElev.toFixed(1)}° — el alero no necesita proyectarse más allá de la cara exterior.`;
+    } else {
+      $('resultSub').textContent = `Dimensionado para dar sombra completa a la ventana en ${bindingDateLabel} (${dateLabelFromDay(bindingN)}), cuando el sol alcanza ${bindingElev.toFixed(1)}° al mediodía solar.`;
+    }
+
+    const D = Math.abs(bindingN - SOLSTICE_N);
+    const fullStart = SOLSTICE_N - D;
+    const fullEnd = SOLSTICE_N + D;
+    const spanDays = fullEnd - fullStart;
+    const requestedSpan = Math.abs(nB - nA);
+
+    $('bonusRow').innerHTML = `Este alero en realidad dará sombra completa desde el <strong>${dateLabelFromDay(fullStart)}</strong> hasta el <strong>${dateLabelFromDay(fullEnd)}</strong> — <span class="figure">${spanDays}</span> días, unos <span class="figure">${Math.max(0, spanDays - requestedSpan)}</span> más de lo que pediste, extendiéndose un poco hacia la primavera y el otoño.`;
+
+    const winterElev = elevation(lat, WINTER_N);
+
+    drawDiagram({ eaveHeight, sillHeight, windowHeight, wallThicknessM, overhang, bindingElev, winterElev, bindingDateLabel: dateLabelFromDay(bindingN) });
+    drawChart({ lat, bindingElev, fullStart, fullEnd, nA, nB, dateA, dateB });
+  }
+
+  function drawDiagram(d){
+    const svg = $('diagram');
+    if (!d) { svg.innerHTML = ''; return; }
+
+    const { eaveHeight, sillHeight, windowHeight, wallThicknessM, overhang, bindingElev, winterElev, bindingDateLabel } = d;
+
+    const maxHeight = eaveHeight + 0.6;
+    const maxWidth = wallThicknessM + overhang + eaveHeight / Math.max(0.3, Math.tan(toRad(Math.max(bindingElev, 8)))) * 0.35 + 2;
+    const scale = Math.min(95, 260 / maxHeight, 300 / maxWidth);
+
+    const groundY = 300;
+    const xInterior = 90;
+    const xExterior = xInterior + wallThicknessM * scale;
+    const xTip = xExterior + overhang * scale;
+
+    const yEave = groundY - eaveHeight * scale;
+    const ySill = groundY - sillHeight * scale;
+    const yWinTop = groundY - (sillHeight + windowHeight) * scale;
+
+    // summer ray: from a point above/right of the tip, through the tip, to the sill at the interior face
+    const raySummerFarX = xTip + Math.max(30, overhang * scale * 0.6);
+    const raySummerFarY = yEave - (raySummerFarX - xTip) * Math.tan(toRad(bindingElev));
+
+    // winter ray: same start direction but shallower angle, continuing past the tip down toward the floor
+    const winterRun = eaveHeight / Math.tan(toRad(winterElev));
+    const xWinterGround = xTip - winterRun * scale;
+    const rayWinterFarX = xTip + Math.max(30, overhang * scale * 0.6);
+    const rayWinterFarY = yEave - (rayWinterFarX - xTip) * Math.tan(toRad(winterElev));
+
+    const viewW = Math.max(460, xTip + 60);
+    const viewH = 340;
+    svg.setAttribute('viewBox', `0 0 ${viewW} ${viewH}`);
+
+    const parts = [];
+
+    // ground
+    parts.push(`<line x1="20" y1="${groundY}" x2="${viewW-20}" y2="${groundY}" stroke="var(--blueprint-line-dim)" stroke-width="1.5"/>`);
+
+    // interior floor hatch (short)
+    parts.push(`<line x1="20" y1="${groundY}" x2="${xInterior}" y2="${groundY}" stroke="var(--blueprint-line)" stroke-width="2"/>`);
+
+    // wall body
+    parts.push(`<rect x="${xInterior}" y="${yEave}" width="${xExterior - xInterior}" height="${groundY - yEave}" fill="none" stroke="var(--blueprint-line)" stroke-width="1.5"/>`);
+
+    // window opening (drawn as a lighter cut through the wall)
+    parts.push(`<rect x="${xInterior - 1}" y="${yWinTop}" width="${xExterior - xInterior + 2}" height="${ySill - yWinTop}" fill="rgba(220,234,244,0.14)" stroke="var(--blueprint-line)" stroke-width="1"/>`);
+
+    // overhang slab
+    parts.push(`<rect x="${xExterior}" y="${yEave - 6}" width="${xTip - xExterior}" height="7" fill="var(--blueprint-line)"/>`);
+    parts.push(`<rect x="${xInterior}" y="${yEave - 6}" width="${xExterior - xInterior}" height="7" fill="var(--blueprint-line)" opacity="0.55"/>`);
+
+    // dimension: overhang
+    const dimY = yEave - 16;
+    parts.push(`<line x1="${xExterior}" y1="${dimY}" x2="${xTip}" y2="${dimY}" stroke="var(--sun)" stroke-width="1"/>`);
+    parts.push(`<line x1="${xExterior}" y1="${dimY-4}" x2="${xExterior}" y2="${dimY+4}" stroke="var(--sun)" stroke-width="1"/>`);
+    parts.push(`<line x1="${xTip}" y1="${dimY-4}" x2="${xTip}" y2="${dimY+4}" stroke="var(--sun)" stroke-width="1"/>`);
+    parts.push(`<text x="${(xExterior+xTip)/2}" y="${dimY-8}" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" fill="var(--sun)">${formatMeters(overhang)}</text>`);
+
+    // summer ray (blocked): drawn ember, dashed beyond the tip, solid from tip to sill
+    parts.push(`<line x1="${raySummerFarX}" y1="${raySummerFarY}" x2="${xTip}" y2="${yEave}" stroke="var(--ember)" stroke-width="2" stroke-dasharray="5 4"/>`);
+    parts.push(`<line x1="${xTip}" y1="${yEave}" x2="${xInterior}" y2="${ySill}" stroke="var(--ember)" stroke-width="2.5"/>`);
+    parts.push(sunGlyph(raySummerFarX, raySummerFarY, 'var(--ember)'));
+    parts.push(`<text x="${raySummerFarX - 6}" y="${raySummerFarY - 12}" text-anchor="end" font-family="IBM Plex Mono" font-size="11" fill="var(--ember)">${bindingElev.toFixed(1)}° · ${bindingDateLabel}</text>`);
+
+    // winter ray (admitted): gold, continues past the tip to the floor
+    parts.push(`<line x1="${rayWinterFarX}" y1="${rayWinterFarY}" x2="${xTip}" y2="${yEave}" stroke="var(--sun)" stroke-width="2" stroke-dasharray="5 4"/>`);
+    parts.push(`<line x1="${xTip}" y1="${yEave}" x2="${Math.max(20, xWinterGround)}" y2="${groundY}" stroke="var(--sun)" stroke-width="2.5"/>`);
+    parts.push(sunGlyph(rayWinterFarX, rayWinterFarY - 26, 'var(--sun)'));
+    parts.push(`<text x="${rayWinterFarX - 6}" y="${rayWinterFarY - 38}" text-anchor="end" font-family="IBM Plex Mono" font-size="11" fill="var(--sun)">${winterElev.toFixed(1)}° · solsticio de invierno</text>`);
+
+    svg.innerHTML = parts.join('');
+  }
+
+  function sunGlyph(x, y, color){
+    let rays = '';
+    for (let a = 0; a < 360; a += 45) {
+      const x1 = x + Math.cos(toRad(a)) * 7;
+      const y1 = y + Math.sin(toRad(a)) * 7;
+      const x2 = x + Math.cos(toRad(a)) * 11;
+      const y2 = y + Math.sin(toRad(a)) * 11;
+      rays += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="1.5"/>`;
+    }
+    return `<circle cx="${x}" cy="${y}" r="5" fill="${color}"/>${rays}`;
+  }
+
+  function drawChart(d){
+    const svg = $('yearChart');
+    const cap = $('chartCaption');
+    if (!d) { svg.innerHTML = ''; cap.textContent = ''; return; }
+
+    const { lat, bindingElev, fullStart, fullEnd, nA, nB, dateA, dateB } = d;
+
+    cap.textContent = `A ${lat.toFixed(2)}°N, elevación solar al mediodía a lo largo del año — la línea punteada es tu ángulo de diseño de ${bindingElev.toFixed(1)}°.`;
+
+    const W = 900, H = 260;
+    const padL = 44, padR = 16, padT = 16, padB = 30;
+    const chartW = W - padL - padR;
+    const chartH = H - padT - padB;
+
+    const xForDay = (n) => padL + (n / 365) * chartW;
+    const yForElev = (e) => padT + chartH - (Math.max(0, e) / 90) * chartH;
+
+    const parts = [];
+
+    // shaded band = full-shade season
+    const bandX1 = xForDay(Math.max(1, fullStart));
+    const bandX2 = xForDay(Math.min(365, fullEnd));
+    parts.push(`<rect x="${bandX1}" y="${padT}" width="${bandX2-bandX1}" height="${chartH}" fill="var(--ember-soft)"/>`);
+    parts.push(`<rect x="${padL}" y="${padT}" width="${bandX1-padL}" height="${chartH}" fill="var(--sun-soft)"/>`);
+    parts.push(`<rect x="${bandX2}" y="${padT}" width="${padL+chartW-bandX2}" height="${chartH}" fill="var(--sun-soft)"/>`);
+
+    // axes
+    parts.push(`<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT+chartH}" stroke="var(--rule)" stroke-width="1"/>`);
+    parts.push(`<line x1="${padL}" y1="${padT+chartH}" x2="${padL+chartW}" y2="${padT+chartH}" stroke="var(--rule)" stroke-width="1"/>`);
+
+    // y ticks
+    [0,30,60,90].forEach(v => {
+      const y = yForElev(v);
+      parts.push(`<line x1="${padL-4}" y1="${y}" x2="${padL}" y2="${y}" stroke="var(--rule)" stroke-width="1"/>`);
+      parts.push(`<text x="${padL-8}" y="${y+4}" text-anchor="end" font-family="IBM Plex Mono" font-size="11" fill="var(--ink-soft)">${v}°</text>`);
+    });
+
+    // month ticks
+    const monthStarts = [1,32,60,91,121,152,182,213,244,274,305,335];
+    const monthLabels = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+    monthStarts.forEach((n,i) => {
+      const x = xForDay(n);
+      parts.push(`<line x1="${x}" y1="${padT+chartH}" x2="${x}" y2="${padT+chartH+4}" stroke="var(--rule)" stroke-width="1"/>`);
+      parts.push(`<text x="${x}" y="${padT+chartH+17}" text-anchor="start" font-family="IBM Plex Mono" font-size="10.5" fill="var(--ink-soft)">${monthLabels[i]}</text>`);
+    });
+
+    // elevation curve
+    let path = '';
+    for (let n = 1; n <= 365; n += 3) {
+      const e = elevation(lat, n);
+      const x = xForDay(n);
+      const y = yForElev(e);
+      path += (n === 1 ? 'M' : 'L') + x.toFixed(1) + ' ' + y.toFixed(1) + ' ';
+    }
+    parts.push(`<path d="${path}" fill="none" stroke="var(--blueprint-line-dim)" stroke-width="2"/>`);
+
+    // threshold dashed line
+    const ty = yForElev(bindingElev);
+    parts.push(`<line x1="${padL}" y1="${ty}" x2="${padL+chartW}" y2="${ty}" stroke="var(--ember)" stroke-width="1.5" stroke-dasharray="6 4"/>`);
+
+    // markers for user-entered dates
+    [ [nA,'A'], [nB,'B'] ].forEach(([n,label]) => {
+      const e = elevation(lat, n);
+      const x = xForDay(n);
+      const y = yForElev(e);
+      parts.push(`<circle cx="${x}" cy="${y}" r="4" fill="var(--ink)"/>`);
+      parts.push(`<text x="${x}" y="${y-10}" text-anchor="middle" font-family="IBM Plex Mono" font-size="10.5" fill="var(--ink)">${label}</text>`);
+    });
+
+    svg.innerHTML = parts.join('');
+  }
+
+  compute();
+})();
+</script>
+</body>
+</html>
