@@ -91,6 +91,30 @@
 
   .wrap{ max-width: 1080px; margin: 0 auto; padding: 48px 28px 80px; }
 
+  .lang-switch{
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+
+  .lang-switch a{
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 2px 4px;
+  }
+
+  .lang-switch a:hover{ color: var(--ink); text-decoration: underline; }
+
+  .lang-switch a.active{
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .lang-switch .sep{ color: var(--rule); }
+
   /* ---------- Header ---------- */
   header.page-head{
     max-width: 1080px;
@@ -376,6 +400,12 @@
 </head>
 <body>
 <div class="wrap">
+
+  <div class="lang-switch">
+    <a href="/" class="active">EN</a>
+    <span class="sep">·</span>
+    <a href="/es/">ES</a>
+  </div>
 
   <header class="page-head">
     <div class="header-text">
